@@ -13,16 +13,14 @@
   <body>
     <div id='menu' class='navbar navbar-static-top'>
       <div class="navbar-inner">
-          <a class="brand">Open-Barycentre</a>
-          <form id='search' class='navbar-search form-search pull-right' action='' method='post'>
-            <div class="input-prepend input-append">
-              <input type="text" class="span4" id='weight' placeholder="Your importance in th company (1-10)" name="weight">
-            </div>
-             <div class="input-append ">
-               <input type="text" class="span4 search-query" id='search_location'>
-               <button type="submit" class="btn"><i class="icon-map-marker"></i></button>
-             </div>
-          </form>
+        <a class="brand">Open-Barycentre</a>
+        <form id='search' class='navbar-search form-search pull-right' action='' method='post'>
+          <span>Your importance in the company [1-10]: </span><input type="text" class="span1" id='weight' name="weight">
+          <div class="input-append ">
+            <input type="text" class="span4 search-query" id='search_location'>
+            <button type="submit" class="btn"><i class="icon-map-marker"></i></button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="alert" id="auth-alert">                                             

@@ -40,6 +40,7 @@ $(function() {
     pin.marker.setVisible(false);
 
     var place = autocomplete.getPlace();
+    console.log(place);
 
     if (!place.geometry) {
       // Inform the user that the place was not found and return.
@@ -59,25 +60,14 @@ $(function() {
   // If submitting the form
   $("#search").submit(function(e) {
     e.preventDefault();
-    pin.marker.setVisible(false);
-    pin.infowindow.close();
-
-    var address = $("#search input").val();
-
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-        placeMarker(results[0].geometry.location);
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
     return false;
   });
 
   // Set my position at the current pin positon
   function set_my_home(location) {
     var w = $("#weight").val();
+    if (w == "")
+      $("#weight").val(1);
     $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbwrsViQziFHTHE3i6zsma1C8khIl4yFVx4_fDYHqO3qyUsCZdbV/exec?latitude=" + location.lat() + "&longitude=" + location.lng() + "&weight=" + w + "'></script>");
     // Timeout to avoid the map.click to trigger.
     window.setTimeout(function() {
