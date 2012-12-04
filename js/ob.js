@@ -2,6 +2,7 @@ var map;
 var geocoder;
 
 var refresh = function() {};
+var auth = function() {};
 
 var pin = {
   infowindow: null,
@@ -36,7 +37,7 @@ $(function() {
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
     pin.infowindow.close();
-    pin.setVisible(false);
+    pin.marker.setVisible(false);
 
     var place = autocomplete.getPlace();
 
@@ -76,7 +77,7 @@ $(function() {
 
   // Set my position at the current pin positon
   function set_my_home(location) {
-    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbzVHio6tk3wTOxkQloujlqEVYn2zZQ9GJOivIDXenh64VuqqiaA/exec?latitude=" + location.lat() + "&longitude=" + location.lng() + "&weight=3'></script>");
+    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbzVHio6tk3wTOxkQloujlqEVYn2zZQ9GJOivIDXenh64VuqqiaA/exec?latitude=" + location.lat() + "&longitude=" + location.lng() + "&weight='" + $("#weight").val() + "></script>");
     // Timeout to avoid the map.click to trigger.
     window.setTimeout(function() {
       pin.marker.setVisible(false);
@@ -209,6 +210,16 @@ $(function() {
     console.log("Loading...");
   }
 
-  get_positions();
+  auth = function auth() {
+    $("#auth-alert").remove();
+    get_positions();
+  }
+
+  function check_auth() {
+    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbzVHio6tk3wTOxkQloujlqEVYn2zZQ9GJOivIDXenh64VuqqiaA/exec?myauth=1&check=1'></script>");
+    console.log("Checking...");
+  }
+
+  check_auth();
 
 });
