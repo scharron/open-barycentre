@@ -68,7 +68,7 @@ $(function() {
     var w = $("#weight").val();
     if (w == "")
       $("#weight").val(1);
-    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbxz8eBHwy_zNbNBCVIbFOUzHzARUKBJQxBLaVPX3w5NU0qOFFUj/exec?latitude=" + location.lat() + "&longitude=" + location.lng() + "&weight=" + w + "'></script>");
+    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbwtXvODjmKWGs2R565fAX4CUXMawAfN0q4snoyF_zUq9ag7Tjg/exec?latitude=" + location.lat() + "&longitude=" + location.lng() + "&weight=" + w + "'></script>");
     // Timeout to avoid the map.click to trigger.
     window.setTimeout(function() {
       pin.marker.setVisible(false);
@@ -197,7 +197,7 @@ $(function() {
   }
 
   function get_positions() {
-    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbxz8eBHwy_zNbNBCVIbFOUzHzARUKBJQxBLaVPX3w5NU0qOFFUj/exec'></script>");
+    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbwtXvODjmKWGs2R565fAX4CUXMawAfN0q4snoyF_zUq9ag7Tjg/exec'></script>");
     console.log("Loading...");
   }
 
@@ -207,7 +207,7 @@ $(function() {
   }
 
   function check_auth() {
-    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbxz8eBHwy_zNbNBCVIbFOUzHzARUKBJQxBLaVPX3w5NU0qOFFUj/exec?myauth=1&check=1'></script>");
+    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbwtXvODjmKWGs2R565fAX4CUXMawAfN0q4snoyF_zUq9ag7Tjg/exec?myauth=1&check=1'></script>");
     console.log("Checking...");
   }
 
