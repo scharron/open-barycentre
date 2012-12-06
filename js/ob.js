@@ -9,6 +9,8 @@ var pin = {
   marker: null
 }
 
+var myImportance = 1;
+
 var homes = {
   markers: [],
   infowindow: null
@@ -85,7 +87,9 @@ $(function() {
     geocoder.geocode({'latLng': location}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[0]) {
-          pin.infowindow.setContent(ich.place(results[0]).html());
+          var obj = results[0];
+          results[0].importance = myImportance;
+          pin.infowindow.setContent(ich.place(obj).html());
           pin.infowindow.open(map, pin.marker);
           $(".myhome").click(function() { set_my_home(location); });
         } else {
@@ -131,6 +135,8 @@ $(function() {
   refresh = function (locations) {
     if (!homes.infowindow)
       homes.infowindow = new google.maps.InfoWindow();
+    
+    myImportance = locations.importance;
 
     // Delete old markers
     for (var i = 0; i < homes.markers.length; ++i) {

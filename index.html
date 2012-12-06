@@ -15,7 +15,6 @@
       <div class="navbar-inner">
         <a class="brand">Open-Barycentre</a>
         <form id='search' class='navbar-search form-search pull-right' action='' method='post'>
-          <span>Your importance in the company [1-10]: </span><input type="text" class="span1" id='weight' name="weight">
           <div class="input-append ">
             <input type="text" class="span4 search-query" id='search_location'>
             <button type="submit" class="btn"><i class="icon-map-marker"></i></button>
@@ -32,7 +31,11 @@
     <script id="place" type="text/html">
       <div>
         {{formatted_address}}
-        <br />
+        <hr />
+        <div class='form-inline'>
+          <label>My Importance [1-10]: </label>
+          <input type="text" class="input-mini" id='weight' name="weight" value="{{importance}}">
+        </div>
         <a class='myhome' href='#'><i class="icon-home"></i>&nbsp;Chez moi!</a>
     </script>
     <script id="home" type="text/html">
