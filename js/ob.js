@@ -134,7 +134,7 @@ $(function() {
 
     homes.markers.push(marker);
 
-    window.setInterval(get_positions, 60000);
+    //window.setInterval(get_positions, 60000);
   }
 
   get_positions();
