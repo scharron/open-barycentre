@@ -23,89 +23,7 @@ $(function() {
   };
 
   map = new google.maps.Map($('#map_canvas').get(0), mapOptions);
-  geocoder = new google.maps.Geocoder();
-
-  // Init pin
-  pin.infowindow = new google.maps.InfoWindow();
-  pin.marker = new google.maps.Marker({
-    map: map
-  });
-
-  // Init auto-complete
-  autocomplete = new google.maps.places.Autocomplete($("#search_location").get(0));
-  autocomplete.bindTo('bounds', map);
-
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
-    pin.infowindow.close();
-    pin.marker.setVisible(false);
-
-    var place = autocomplete.getPlace();
-    console.log(place);
-
-    if (!place.geometry) {
-      // Inform the user that the place was not found and return.
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-    placeMarker(place.geometry.location);
-  });
-
-  // If submitting the form
-  $("#search").submit(function(e) {
-    e.preventDefault();
-    return false;
-  });
-
-  // Set my position at the current pin positon
-  function set_my_home(location) {
-    var w = $("#weight").val();
-    if (w == "")
-      $("#weight").val(1);
-    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbwtXvODjmKWGs2R565fAX4CUXMawAfN0q4snoyF_zUq9ag7Tjg/exec?latitude=" + location.lat() + "&longitude=" + location.lng() + "&weight=" + w + "'></script>");
-    // Timeout to avoid the map.click to trigger.
-    window.setTimeout(function() {
-      pin.marker.setVisible(false);
-      pin.infowindow.close();
-    }, 1);
-    console.log("Loading...");
-  }
-
-  function placeMarker(location) {
-    pin.marker.setPosition(location);
-    pin.marker.setVisible(true);
-    pin.infowindow.setContent("");
-
-    geocoder.geocode({'latLng': location}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results[0]) {
-          pin.infowindow.setContent(ich.place(results[0]).html());
-          pin.infowindow.open(map, pin.marker);
-          $(".myhome").click(function() { set_my_home(location); });
-        } else {
-          alert('No results found');
-        }
-      } else {
-        alert('Geocoder failed due to: ' + status);
-      }
-    });
-  }
-
-  // On map click, set the marker at the click position
-  google.maps.event.addListener(map, 'click', function(event) {
-    placeMarker(event.latLng);
-  });
-  // On pin click, open the info window
-  google.maps.event.addListener(pin.marker, 'click', function(event) {
-    myinfowindow.open(map, pin.marker);
-  });
-
+  
   // Images for other icons
   var bed = new google.maps.MarkerImage("img/bed.png",
     new google.maps.Size(32, 37),
@@ -127,6 +45,29 @@ $(function() {
     new google.maps.Point(0, 0),
     new google.maps.Point(16, 37)
   );
+
+  var get_positions = function() {
+    $.ajax({
+      url: 'https://docs.google.com/spreadsheet/pub?key=0Av-dkoq5Pj2LdDFPRVYxend0MGRNLWk0aUk3cE4yNGc&single=true&gid=2&output=csv',
+      type: 'GET',
+      dataType: 'text',
+      success: function (data) {
+        var rows = data.split("\n");
+        var array = [];
+        for (var j = 1; j < rows.length; ++j) {
+          var row = rows[j].split(",");
+          array.push([row[0], 
+            parseFloat(row[1].slice(1) + "." + row[2].slice(0, -2)), 
+            parseFloat(row[3].slice(1) + "." + row[4].slice(0, -2)),
+            parseFloat(row[5])]);
+        }
+        refresh({"data": array, "me": -1});
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        alert('An error occurred: ' + textStatus + ', ' + errorThrown);
+      }
+    });
+  }
 
   refresh = function (locations) {
     if (!homes.infowindow)
@@ -196,21 +137,5 @@ $(function() {
     window.setInterval(get_positions, 60000);
   }
 
-  function get_positions() {
-    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbwtXvODjmKWGs2R565fAX4CUXMawAfN0q4snoyF_zUq9ag7Tjg/exec'></script>");
-    console.log("Loading...");
-  }
-
-  auth = function auth() {
-    $("#auth-alert").remove();
-    get_positions();
-  }
-
-  function check_auth() {
-    $("body").append("<script src='https://script.google.com/a/macros/data-publica.com/s/AKfycbwtXvODjmKWGs2R565fAX4CUXMawAfN0q4snoyF_zUq9ag7Tjg/exec?myauth=1&check=1'></script>");
-    console.log("Checking...");
-  }
-
-  check_auth();
-
+  get_positions();
 });
