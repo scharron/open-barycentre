@@ -193,7 +193,7 @@ $(function() {
 
     homes.markers.push(marker);
 
-    window.setInterval(get_positions, 60000);
+    window.setTimeout(get_positions, 60000);
   }
 
   function get_positions() {
